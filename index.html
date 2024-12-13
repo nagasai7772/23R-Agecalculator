@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agecalculator</title>
+    <link rel="stylesheet" href="Agecalculator.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="title">Age Calculator</h1>
+      <form onsubmit="Age(event)">
+        <input type="text" id="Date" placeholder="DD" />
+        <span id="DDERROR"></span>
+        <input type="text" id="Month" placeholder="MM" />
+        <span id="MMERROR"></span>
+        <input type="text" id="Year" placeholder="YYYY" />
+        <span id="YYYYERROR"></span>
+        <button type="submit">Get Age</button>
+        <p id="Showage1" style="display: none"></p>
+        <p id="Showage2" style="display: none"></p>
+        <p id="Showage3" style="display: none"></p>
+      </form>
+    </div>
+
+    <script>
+      function Age(event) {
+        event.preventDefault();
+
+        // Get input values
+        let Date_value = document.getElementById("Date").value;
+        let Month_value = document.getElementById("Month").value;
+        let Year_value = document.getElementById("Year").value;
+        let DDERROR = document.getElementById("DDERROR");
+        let MMERROR = document.getElementById("MMERROR");
+        let YYYY = document.getElementById("YYYYERROR");
+        // Validate inputs
+        if (!Date_value) {
+          DDERROR.innerHTML = "*Please fill the Element*";
+          DDERROR.style.color = "red";
+          
+        
+        }
+        if (!Month_value) {
+          MMERROR.innerHTML = "*Please fill the Element*";
+          MMERROR.style.color = "red";
+        }
+        if (!Year_value) {
+          YYYY.innerHTML = "*Please fill the Element*";
+          YYYYERROR.style.color = "red";
+        }
+
+        // Get current date
+        let date = new Date();
+        let d2 = date.getDate();
+        let m2 = 1 + date.getMonth();
+        let y2 = date.getFullYear();
+
+        // Adjust month days
+        var month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        // Adjust for leap year (February 29)
+        if ((y2 % 4 === 0 && y2 % 100 !== 0) || y2 % 400 === 0) {
+          month[1] = 29; // February has 29 days in a leap year
+        }
+
+        // Calculate age
+        if (Date_value > d2) {
+          d2 += month[m2 - 1];
+          m2 -= 1;
+        }
+        if (Month_value > m2) {
+          m2 += 12;
+          y2 -= 1;
+        }
+
+        var days = d2 - Date_value;
+        var months = m2 - Month_value;
+        var years = y2 - Year_value;
+
+        // Display result
+        if (!Date_value || !Month_value || !Year_value) {
+          let display1 = document.getElementById("Showage1");
+          let display2 = document.getElementById("Showage2");
+          let display3 = document.getElementById("Showage3");
+          display1.innerHTML = " ";
+          display2.innerHTML = " ";
+          display3.innerHTML = " ";
+        } else {
+          let display1 = document.getElementById("Showage1");
+          let display2 = document.getElementById("Showage2");
+          let display3 = document.getElementById("Showage3");
+          display1.style.display = "block";
+          display2.style.display = "block";
+          display3.style.display = "block";
+          display1.innerHTML = ` ${years} years`;
+          display2.innerHTML = ` ${months} Months`;
+          display3.innerHTML = `${days} Days`;
+        }
+      }
+    </script>
+  </body>
+</html>
